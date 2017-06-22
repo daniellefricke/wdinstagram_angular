@@ -1,8 +1,5 @@
 "use strict";
 
-
-
-
 (function(){
 
   let WdinstagramData = [
@@ -12,11 +9,35 @@
   ]
 
   angular
-  .module("Wdinstagram", [])
-  .controller("WdinstagramController",[WdinstagramControllerFunction])
+  .module("Wdinstagram", ["ui.router"])
+  .config(["$stateProvider", RouterFunction])
+  .controller("WdinstagramIndexController", [WdinstagramIndexControllerFunction])
+  .controller("WdinstagramShowController", ["$stateParams", WdinstagramShowControllerFunction])
 
-  function WdinstagramControllerFunction(){
-    this.grams = WdinstagramData
+  function RouterFunction($stateProvider){
+    $stateProvider
+    .state("WdinstagramIndex", {
+      url: "/wdinstagram",
+      templateUrl: "js/ng-views/index.html",
+      controller: "WdinstagramIndexController",
+      controllerAs: "vm"
+    })
+    .state("WdinstagramShow", {
+      url: "/wdinstagram/:id",
+      templateUrl: "js/ng-views/show.html",
+      controller: "WdinstagramShowController",
+      controllerAs: "vm"
+    });
   }
-})
-();
+
+  function WdinstagramIndexControllerFunction(){
+    this.grams = WdinstagramData;
+  }
+
+  function WdinstagramShowControllerFunction($stateParams){
+      console.log("Hello World!")
+    this.gram = grams[$stateParams.id];
+
+  }
+
+})();
