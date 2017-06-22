@@ -36,7 +36,7 @@
 
   function WdinstagramShowControllerFunction($stateParams){
       console.log("Hello World!")
-    this.gram = grams[$stateParams.id];
+    this.gram = WdinstagramData[$stateParams.id];
 
   }
 
