@@ -36,7 +36,7 @@
   }
 
   function WdinstagramShowControllerFunction(WdinstagramFactory, $stateParams){
-    this.gram = WdinstagramFactory.get([$stateParams.id]);
+    this.gram = WdinstagramFactory.get([id: $stateParams.id]);
   }
 
   function  WdinstagramFactoryFunction($resource){
