@@ -9,10 +9,11 @@
   ]
 
   angular
-  .module("Wdinstagram", ["ui.router"])
+  .module("Wdinstagram", ["ui.router", "ngResource"])
   .config(["$stateProvider", RouterFunction])
-  .controller("WdinstagramIndexController", [WdinstagramIndexControllerFunction])
-  .controller("WdinstagramShowController", ["$stateParams", WdinstagramShowControllerFunction])
+  .controller("WdinstagramIndexController", ["WdinstagramFactory", WdinstagramIndexControllerFunction])
+  .controller("WdinstagramShowController", ["WdinstagramFactory", "$stateParams", WdinstagramShowControllerFunction])
+  .factory( "WdinstagramFactory", ["$resource", WdinstagramFactoryFunction]);
 
   function RouterFunction($stateProvider){
     $stateProvider
@@ -30,14 +31,15 @@
     });
   }
 
-  function WdinstagramIndexControllerFunction(){
-    this.grams = WdinstagramData;
+  function WdinstagramIndexControllerFunction(WdinstagramFactory){
+    this.grams = WdinstagramFactory.query();
   }
 
-  function WdinstagramShowControllerFunction($stateParams){
-      console.log("Hello World!")
-    this.gram = WdinstagramData[$stateParams.id];
-
+  function WdinstagramShowControllerFunction(WdinstagramFactory, $stateParams){
+    this.gram = WdinstagramFactory.get([$stateParams.id]);
   }
 
-})();
+  function  WdinstagramFactoryFunction($resource){
+  return $resource( "http://localhost:3000/wdinstagram/:id" );
+    }
+  })();
